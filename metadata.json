@@ -1,0 +1,6 @@
+{
+  "name": "edits.of.rk — Rathish Kumar Portfolio",
+  "description": "Minimalist single-section video editing portfolio for edits.of.rk (Rathish Kumar) featuring morphing GSAP page transitions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
