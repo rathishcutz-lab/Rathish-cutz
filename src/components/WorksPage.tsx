@@ -3,7 +3,9 @@ import {
   Play,
   Pause,
   ChevronUp,
-  ChevronDown
+  ChevronDown,
+  Volume2,
+  VolumeX
 } from 'lucide-react';
 import gsap from 'gsap';
 import { PROJECTS, CLOUDINARY_CLOUD_NAME, buildCloudinaryVideoUrl } from '../data/portfolioData';
@@ -21,7 +23,9 @@ export const WorksPage: React.FC<WorksPageProps> = ({
 }) => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
+  const [isMuted, setIsMuted] = useState<boolean>(false);
   const [showPlayPulse, setShowPlayPulse] = useState<boolean>(false);
+  const [showMutePulse, setShowMutePulse] = useState<boolean>(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const reelContainerRef = useRef<HTMLDivElement>(null);
@@ -87,14 +91,31 @@ export const WorksPage: React.FC<WorksPageProps> = ({
     };
   }, [currentIndex]);
 
-  // Reset video playback on project switch
+  // Reset video playback on project switch and manage sound
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.currentTime = 0;
-      videoRef.current.play().catch(() => {
-        setIsPlaying(false);
-      });
-      setIsPlaying(true);
+    if (!videoRef.current) return;
+    videoRef.current.currentTime = 0;
+    videoRef.current.muted = isMuted;
+    videoRef.current.volume = 1;
+
+    const playPromise = videoRef.current.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          setIsPlaying(true);
+        })
+        .catch(() => {
+          // If browser policy blocks autoplay with sound, fall back to muted autoplay
+          if (videoRef.current && !isMuted) {
+            videoRef.current.muted = true;
+            setIsMuted(true);
+            videoRef.current.play().catch(() => {
+              setIsPlaying(false);
+            });
+          } else {
+            setIsPlaying(false);
+          }
+        });
     }
 
     if (reelContainerRef.current && isActive) {
@@ -104,7 +125,7 @@ export const WorksPage: React.FC<WorksPageProps> = ({
         { scale: 1, opacity: 1, duration: 0.45, ease: 'power2.out' }
       );
     }
-  }, [currentIndex, isActive]);
+  }, [currentIndex, videoSrc, isActive]);
 
   // Handle Play/Pause toggle
   const togglePlay = () => {
@@ -118,6 +139,38 @@ export const WorksPage: React.FC<WorksPageProps> = ({
     }
     setShowPlayPulse(true);
     setTimeout(() => setShowPlayPulse(false), 500);
+  };
+
+  // Toggle audio mute/unmute
+  const toggleMute = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    if (!videoRef.current) return;
+    const nextMuted = !videoRef.current.muted;
+    videoRef.current.muted = nextMuted;
+    videoRef.current.volume = 1;
+    setIsMuted(nextMuted);
+    setShowMutePulse(true);
+    setTimeout(() => setShowMutePulse(false), 600);
+    if (!nextMuted && videoRef.current.paused) {
+      videoRef.current.play().catch(() => {});
+      setIsPlaying(true);
+    }
+  };
+
+  // Video click: if muted, direct click enables sound immediately!
+  const handleVideoClick = () => {
+    if (!videoRef.current) return;
+    if (isMuted) {
+      videoRef.current.muted = false;
+      videoRef.current.volume = 1;
+      setIsMuted(false);
+      videoRef.current.play().catch(() => {});
+      setIsPlaying(true);
+      setShowMutePulse(true);
+      setTimeout(() => setShowMutePulse(false), 600);
+      return;
+    }
+    togglePlay();
   };
 
   // Next and previous project navigation
@@ -147,12 +200,15 @@ export const WorksPage: React.FC<WorksPageProps> = ({
       } else if (e.key === ' ') {
         e.preventDefault();
         togglePlay();
+      } else if (e.key === 'm' || e.key === 'M') {
+        e.preventDefault();
+        toggleMute();
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isActive, currentIndex]);
+  }, [isActive, currentIndex, isMuted, isPlaying]);
 
   // Wheel scroll navigation (throttle)
   const wheelTimeout = useRef<number | null>(null);
@@ -206,10 +262,25 @@ export const WorksPage: React.FC<WorksPageProps> = ({
           id="clean-video-frame"
           className="relative w-full max-w-[380px] sm:max-w-[400px] h-full max-h-[730px] rounded-2xl sm:rounded-3xl overflow-hidden bg-black shadow-2xl border border-zinc-200 sm:border-zinc-800 flex flex-col justify-end"
         >
+          {/* Top Sound Toggle Icon Only */}
+          <div className="absolute top-3.5 right-3.5 z-30">
+            <button
+              onClick={toggleMute}
+              aria-label={isMuted ? 'Unmute video audio' : 'Mute video audio'}
+              className="w-9 h-9 rounded-full backdrop-blur-md bg-black/60 hover:bg-black/80 active:scale-90 border border-white/20 text-white flex items-center justify-center transition-all cursor-pointer shadow-lg group"
+            >
+              {isMuted ? (
+                <VolumeX className="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform" />
+              ) : (
+                <Volume2 className="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
+              )}
+            </button>
+          </div>
+
           {/* Main Video Element */}
           <div
             className="absolute inset-0 z-0 bg-black cursor-pointer flex items-center justify-center"
-            onClick={togglePlay}
+            onClick={handleVideoClick}
           >
             <video
               ref={videoRef}
@@ -217,7 +288,7 @@ export const WorksPage: React.FC<WorksPageProps> = ({
               poster={currentProject.fallbackImageUrl}
               playsInline
               loop
-              muted
+              muted={isMuted}
               autoPlay
               className={`w-full h-full ${currentProject.aspectRatio === '16:9' ? 'object-contain bg-zinc-950' : 'object-cover'} select-none pointer-events-none transition-all duration-300`}
             />
@@ -230,6 +301,21 @@ export const WorksPage: React.FC<WorksPageProps> = ({
                     <Play className="w-7 h-7 fill-current ml-1" />
                   ) : (
                     <Pause className="w-7 h-7 fill-current" />
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Center Sound Toggle Pulse Animation */}
+            {showMutePulse && (
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+                <div className={`w-16 h-16 rounded-full backdrop-blur-md border flex items-center justify-center animate-ping ${
+                  isMuted ? 'bg-amber-950/80 border-amber-400/40 text-amber-400' : 'bg-emerald-950/80 border-emerald-400/40 text-emerald-400'
+                }`}>
+                  {isMuted ? (
+                    <VolumeX className="w-7 h-7" />
+                  ) : (
+                    <Volume2 className="w-7 h-7" />
                   )}
                 </div>
               </div>

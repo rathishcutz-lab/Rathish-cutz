@@ -20,8 +20,9 @@ export const VideoModal: React.FC<VideoModalProps> = ({ project, isOpen, onClose
 
   useEffect(() => {
     if (isOpen && project) {
-      // First attempt to load user's custom asset path
-      setVideoSrc(project.assetVideoPath);
+      // Prioritize Cloudinary video source
+      const src = project.cloudinaryUrl || project.fallbackVideoUrl || project.assetVideoPath;
+      setVideoSrc(src);
       setIsUsingFallback(false);
       setIsPlaying(true);
       setProgress(0);
