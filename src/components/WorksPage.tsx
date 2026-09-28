@@ -6,7 +6,7 @@ import {
   ChevronDown
 } from 'lucide-react';
 import gsap from 'gsap';
-import { PROJECTS } from '../data/portfolioData';
+import { PROJECTS, CLOUDINARY_CLOUD_NAME, buildCloudinaryVideoUrl } from '../data/portfolioData';
 import { ProjectItem, PageId } from '../types';
 
 interface WorksPageProps {
@@ -31,17 +31,36 @@ export const WorksPage: React.FC<WorksPageProps> = ({
   // Resolve video path: check local /works/ then fallback
   const [videoSrc, setVideoSrc] = useState<string>(currentProject.fallbackVideoUrl);
 
-  // Probe local works videos in public folder first
+  // Probe candidate video sources: Cloudinary, local /works/, then fallback
   useEffect(() => {
     let isCancelled = false;
     const project = PROJECTS[currentIndex];
-    const candidatePaths = [
+    const candidatePaths: string[] = [];
+
+    // 1. Direct Cloudinary video url if provided
+    if (project.cloudinaryUrl) {
+      candidatePaths.push(project.cloudinaryUrl);
+    }
+
+    // 2. Cloudinary cloud delivery if cloud name is set
+    if (CLOUDINARY_CLOUD_NAME) {
+      if (project.cloudinaryPublicId) {
+        candidatePaths.push(buildCloudinaryVideoUrl(project.cloudinaryPublicId));
+      }
+      candidatePaths.push(buildCloudinaryVideoUrl(`${project.id}.mp4`));
+      candidatePaths.push(buildCloudinaryVideoUrl(project.id));
+      candidatePaths.push(buildCloudinaryVideoUrl(`edits_of_rk/${project.id}`));
+      candidatePaths.push(buildCloudinaryVideoUrl(`works/${project.id}`));
+    }
+
+    // 3. Local public folder assets and fallback
+    candidatePaths.push(
       `/works/${project.id}.mp4`,
       `/works/works-video-${currentIndex + 1}.mp4`,
       `/works/video-${currentIndex + 1}.mp4`,
       `/works/${currentIndex + 1}.mp4`,
       project.fallbackVideoUrl
-    ];
+    );
 
     const testCandidates = async () => {
       for (const path of candidatePaths) {
@@ -200,7 +219,7 @@ export const WorksPage: React.FC<WorksPageProps> = ({
               loop
               muted
               autoPlay
-              className="w-full h-full object-cover select-none pointer-events-none"
+              className={`w-full h-full ${currentProject.aspectRatio === '16:9' ? 'object-contain bg-zinc-950' : 'object-cover'} select-none pointer-events-none transition-all duration-300`}
             />
 
             {/* Center Play/Pause Pop Animation */}

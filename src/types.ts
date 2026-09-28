@@ -3,7 +3,7 @@ export type PageId = 'home' | 'works' | 'about';
 export interface ProjectItem {
   id: string;
   title: string;
-  category: 'Commercial' | 'Music Video' | 'Narrative' | 'Fashion Reel' | 'Color Grade';
+  category: string;
   client: string;
   year: string;
   duration: string;
@@ -14,6 +14,8 @@ export interface ProjectItem {
   assetVideoPath: string;      // e.g. '/assets/works-video-1.mp4' (checked first)
   fallbackVideoUrl: string;    // Fallback cinematic clip
   fallbackImageUrl: string;    // High-definition fallback still/poster
+  cloudinaryPublicId?: string; // Optional Cloudinary public ID (e.g. 'edits_of_rk/velocity_noir')
+  cloudinaryUrl?: string;      // Direct full Cloudinary video delivery URL
   colorGradeStills?: string[];
   metrics?: string;
 }

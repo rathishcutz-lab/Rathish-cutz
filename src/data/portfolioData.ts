@@ -1,5 +1,16 @@
 import { BrandInfo, ProjectItem } from '../types';
 
+export const CLOUDINARY_CLOUD_NAME = (import.meta.env.VITE_CLOUDINARY_CLOUD_NAME as string | undefined)?.trim() || 'dpdpjs3iu';
+
+/**
+ * Builds a fast, auto-optimised Cloudinary video delivery URL if cloud name is provided.
+ */
+export const buildCloudinaryVideoUrl = (publicId: string): string => {
+  const cleanId = publicId.replace(/^\/+/, '');
+  const cloud = CLOUDINARY_CLOUD_NAME || 'dpdpjs3iu';
+  return `https://res.cloudinary.com/${cloud}/video/upload/q_auto,f_auto/${cleanId}`;
+};
+
 export const BRAND_INFO: BrandInfo = {
   brandName: 'edits.of.rk',
   creatorName: 'RATHISH KUMAR',
@@ -34,84 +45,94 @@ export const BRAND_INFO: BrandInfo = {
 
 export const PROJECTS: ProjectItem[] = [
   {
-    id: 'velocity-noir',
-    title: 'VELOCITY / NOIR',
-    category: 'Commercial',
-    client: 'Apex Automotive & Nocturne',
+    id: 'dragon-opening-day',
+    title: 'DRAGON / OPENING DAY',
+    category: 'Celebrity Reel',
+    client: 'Dragon Movie Campaign',
     year: '2025',
-    duration: '01:45',
-    aspectRatio: '2.39:1',
-    role: 'Lead Editor & Sound Design',
-    synopsis: 'A heart-pounding nocturnal drive captured through anamorphic lenses. Cut on the pulse of an escalating bass synth, blending raw engine foley with razor-sharp match cuts.',
-    tags: ['Automotive', 'Sound Design', 'High Contrast', 'Match Cuts'],
-    assetVideoPath: '/assets/works-video-1.mp4',
-    fallbackVideoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-    fallbackImageUrl: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1600&auto=format&fit=crop',
-    metrics: '2.4M Views'
-  },
-  {
-    id: 'echoes-of-solitude',
-    title: 'ECHOES OF SOLITUDE',
-    category: 'Narrative',
-    client: 'Mirage Pictures',
-    year: '2025',
-    duration: '04:12',
-    aspectRatio: '1.85:1',
-    role: 'Offline Editor & Colorist',
-    synopsis: 'A meditative psychological drama set in coastal mist. Uses extended takes and jarring jump cuts to mirror the protagonist’s unraveling perception of time.',
-    tags: ['Narrative', 'Psychological', 'Kodak 5219 Emulation', 'Pacing'],
-    assetVideoPath: '/assets/works-video-2.mp4',
-    fallbackVideoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
-    fallbackImageUrl: 'https://images.unsplash.com/photo-1518173946687-a4c8a383392e?q=80&w=1600&auto=format&fit=crop',
-    metrics: 'Festival Official Selection'
-  },
-  {
-    id: 'neon-rebirth',
-    title: 'NEON REBIRTH: LIVE VIBE',
-    category: 'Music Video',
-    client: 'Subterranean Records',
-    year: '2024',
-    duration: '03:28',
-    aspectRatio: '16:9',
-    role: 'Editor & VFX Compositing',
-    synopsis: 'Hyper-kinetic music video cut at 140 BPM with glitch transitions, retro CRT tape distortion, and speed ramps synced to 808 percussion.',
-    tags: ['Music Video', 'Kinetic', 'Speed Ramps', 'Beat Sync'],
-    assetVideoPath: '/assets/works-video-3.mp4',
-    fallbackVideoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
-    fallbackImageUrl: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1600&auto=format&fit=crop',
-    metrics: '5.1M Streams'
-  },
-  {
-    id: 'lumina-haute',
-    title: 'LUMINA SS/25 CAMPAIGN',
-    category: 'Fashion Reel',
-    client: 'Lumina Atelier Paris',
-    year: '2025',
-    duration: '00:58',
+    duration: '00:45',
     aspectRatio: '9:16',
-    role: 'Creative Editor & Sound Sync',
-    synopsis: 'Vertical editorial cut crafted for high-end fashion houses. Seamless morph wipes, silk fabric velocity, and textured ASMR sound layers.',
-    tags: ['Vertical Edit', 'Fashion', 'Luxury', 'Morph Cuts'],
-    assetVideoPath: '/assets/works-video-4.mp4',
-    fallbackVideoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-    fallbackImageUrl: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1600&auto=format&fit=crop',
-    metrics: 'Global Social Launch'
+    role: 'Lead Editor & Color',
+    synopsis: 'High-octane opening day celebratory reel featuring punchy cuts, rhythmic beat-matching, and crowd energy.',
+    tags: ['Celebrity Reel', 'Opening Day', 'Fast Cuts', 'Sound Sync'],
+    assetVideoPath: '/assets/works-video-1.mp4',
+    cloudinaryPublicId: 'DRAGON_OPENING_DAY_FINAL',
+    cloudinaryUrl: 'https://res.cloudinary.com/dpdpjs3iu/video/upload/v1789364138/DRAGON_OPENING_DAY_FINAL.mp4',
+    fallbackVideoUrl: 'https://res.cloudinary.com/dpdpjs3iu/video/upload/v1789364138/DRAGON_OPENING_DAY_FINAL.mp4',
+    fallbackImageUrl: 'https://res.cloudinary.com/dpdpjs3iu/video/upload/so_1,q_auto,f_auto/DRAGON_OPENING_DAY_FINAL.jpg',
+    metrics: 'Viral Campaign Launch'
   },
   {
-    id: 'obsidian-titan',
-    title: 'CHRONO / OBSIDIAN',
-    category: 'Commercial',
-    client: 'Krono Horology',
+    id: 'celebrity-reel-mani',
+    title: 'CELEBRITY REEL / MANI',
+    category: 'Celebrity Reel',
+    client: 'Mani & Creative Team',
+    year: '2025',
+    duration: '00:38',
+    aspectRatio: '9:16',
+    role: 'Editor & Motion Grade',
+    synopsis: 'Dynamic celebrity reel with seamless transitions, audio punch, and striking cinematic color grade.',
+    tags: ['Celebrity', 'Portrait', 'Transitions', 'Color Grade'],
+    assetVideoPath: '/assets/works-video-2.mp4',
+    cloudinaryPublicId: 'CELEBRITY_REEL_MANI',
+    cloudinaryUrl: 'https://res.cloudinary.com/dpdpjs3iu/video/upload/v1789364135/CELEBRITY_REEL_MANI.mp4',
+    fallbackVideoUrl: 'https://res.cloudinary.com/dpdpjs3iu/video/upload/v1789364135/CELEBRITY_REEL_MANI.mp4',
+    fallbackImageUrl: 'https://res.cloudinary.com/dpdpjs3iu/video/upload/so_1,q_auto,f_auto/CELEBRITY_REEL_MANI.jpg',
+    metrics: 'Social Release'
+  },
+  {
+    id: 'marshal-poojai',
+    title: 'MARSHAL / POOJAI CEREMONY',
+    category: 'Cinema Launch',
+    client: 'Marshal Production Team',
+    year: '2025',
+    duration: '01:10',
+    aspectRatio: '9:16',
+    role: 'Editor & Audio Mastering',
+    synopsis: 'Traditional auspicious launch ceremony cut into an engaging cinematic highlight reel.',
+    tags: ['Cinema Launch', 'Poojai', 'Atmospheric', 'Highlight Cut'],
+    assetVideoPath: '/assets/works-video-3.mp4',
+    cloudinaryPublicId: 'MARSHAL_POOJAI',
+    cloudinaryUrl: 'https://res.cloudinary.com/dpdpjs3iu/video/upload/v1789364132/MARSHAL_POOJAI.mp4',
+    fallbackVideoUrl: 'https://res.cloudinary.com/dpdpjs3iu/video/upload/v1789364132/MARSHAL_POOJAI.mp4',
+    fallbackImageUrl: 'https://res.cloudinary.com/dpdpjs3iu/video/upload/so_1,q_auto,f_auto/MARSHAL_POOJAI.jpg',
+    metrics: 'Official Ceremony Video'
+  },
+  {
+    id: 'karthi-marshal-pooja',
+    title: 'KARTHI / MARSHAL POOJA',
+    category: 'Celebrity Spotlight',
+    client: 'Marshal Movie Launch',
+    year: '2025',
+    duration: '00:55',
+    aspectRatio: '9:16',
+    role: 'Lead Video Editor',
+    synopsis: 'Special celebrity spotlight cut capturing actor Karthi at the Marshal Pooja event.',
+    tags: ['Karthi', 'Celebrity Spotlight', 'Event Cut', 'Engaging'],
+    assetVideoPath: '/assets/works-video-4.mp4',
+    cloudinaryPublicId: 'KARTHI_MARSHAL_POOJA',
+    cloudinaryUrl: 'https://res.cloudinary.com/dpdpjs3iu/video/upload/v1789364125/KARTHI_MARSHAL_POOJA.mp4',
+    fallbackVideoUrl: 'https://res.cloudinary.com/dpdpjs3iu/video/upload/v1789364125/KARTHI_MARSHAL_POOJA.mp4',
+    fallbackImageUrl: 'https://res.cloudinary.com/dpdpjs3iu/video/upload/so_1,q_auto,f_auto/KARTHI_MARSHAL_POOJA.jpg',
+    metrics: 'Star Spotlight Feature'
+  },
+  {
+    id: 'vishal-actor',
+    title: 'VISHAL ACTOR / SPOTLIGHT',
+    category: 'Feature Interview',
+    client: 'Media & Entertainment',
     year: '2024',
-    duration: '01:15',
-    aspectRatio: '2.39:1',
-    role: 'Lead Post Production & Micro-Macro Cut',
-    synopsis: 'Macro horology craftsmanship contrasted with expansive alpine landscapes. Precision split screens and rhythmically engineered tick-tock pacing.',
-    tags: ['Commercial', 'Macro Cinema', 'Precision Audio', 'Clean Cut'],
+    duration: '01:20',
+    aspectRatio: '16:9',
+    role: 'Lead Post & Audio Mix',
+    synopsis: 'Polished feature interview cut of Actor Vishal with focused pacing and crisp dialogue audio.',
+    tags: ['Vishal', 'Actor Spotlight', 'Cinema', 'Clean Sound'],
     assetVideoPath: '/assets/works-video-5.mp4',
-    fallbackVideoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-    fallbackImageUrl: 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?q=80&w=1600&auto=format&fit=crop',
-    metrics: 'Brand Campaign Award'
+    cloudinaryPublicId: 'VISHAL_ACTOR',
+    cloudinaryUrl: 'https://res.cloudinary.com/dpdpjs3iu/video/upload/v1789364124/VISHAL_ACTOR.mp4',
+    fallbackVideoUrl: 'https://res.cloudinary.com/dpdpjs3iu/video/upload/v1789364124/VISHAL_ACTOR.mp4',
+    fallbackImageUrl: 'https://res.cloudinary.com/dpdpjs3iu/video/upload/so_1,q_auto,f_auto/VISHAL_ACTOR.jpg',
+    metrics: 'Exclusive Interview Cut'
   }
 ];
 
