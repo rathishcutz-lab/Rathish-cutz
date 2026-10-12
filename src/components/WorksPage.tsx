@@ -26,6 +26,8 @@ export const WorksPage: React.FC<WorksPageProps> = ({
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const [showPlayPulse, setShowPlayPulse] = useState<boolean>(false);
   const [showMutePulse, setShowMutePulse] = useState<boolean>(false);
+  const [showSwipeHint, setShowSwipeHint] = useState<boolean>(false);
+  const swipeHintPlayedRef = useRef<boolean>(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const reelContainerRef = useRef<HTMLDivElement>(null);
@@ -103,13 +105,30 @@ export const WorksPage: React.FC<WorksPageProps> = ({
       playPromise
         .then(() => {
           setIsPlaying(true);
+          // Show quick swipe hint fadein and fadeout on first play
+          if (!swipeHintPlayedRef.current) {
+            swipeHintPlayedRef.current = true;
+            setShowSwipeHint(true);
+            setTimeout(() => {
+              setShowSwipeHint(false);
+            }, 1800);
+          }
         })
         .catch(() => {
           // If browser policy blocks autoplay with sound, fall back to muted autoplay
           if (videoRef.current && !isMuted) {
             videoRef.current.muted = true;
             setIsMuted(true);
-            videoRef.current.play().catch(() => {
+            videoRef.current.play().then(() => {
+              setIsPlaying(true);
+              if (!swipeHintPlayedRef.current) {
+                swipeHintPlayedRef.current = true;
+                setShowSwipeHint(true);
+                setTimeout(() => {
+                  setShowSwipeHint(false);
+                }, 1800);
+              }
+            }).catch(() => {
               setIsPlaying(false);
             });
           } else {
@@ -320,6 +339,27 @@ export const WorksPage: React.FC<WorksPageProps> = ({
                 </div>
               </div>
             )}
+
+            {/* Center Swipe Hint: No arrow, centered vertically and horizontally, quick fadein & fadeout after 1st play */}
+            <div
+              className={`absolute inset-0 flex items-center justify-center pointer-events-none z-30 transition-all duration-700 ease-out ${
+                showSwipeHint
+                  ? 'opacity-100 scale-100'
+                  : 'opacity-0 scale-95'
+              }`}
+            >
+              <div className="relative flex items-center justify-center">
+                {/* Ping pulse aura */}
+                <div className="absolute -inset-4 rounded-full bg-white/20 animate-ping opacity-60 pointer-events-none" />
+                
+                {/* Centered Badge with SWIPE text and subtle backdrop */}
+                <div className="relative px-5 py-2.5 rounded-full bg-black/60 backdrop-blur-md border border-white/30 shadow-2xl flex items-center justify-center">
+                  <span className="font-mono-code text-xs sm:text-sm font-bold tracking-[0.28em] text-white uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+                    SWIPE
+                  </span>
+                </div>
+              </div>
+            </div>
 
             {/* Subtle bottom gradient scrim for title readability */}
             <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/80 via-black/30 to-transparent pointer-events-none" />
