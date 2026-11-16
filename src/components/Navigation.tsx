@@ -17,19 +17,19 @@ export const Navigation: React.FC<NavigationProps> = ({
 }) => {
   return (
     <>
-      {/* Top Left: edits.of.rk Brand Logo */}
+      {/* Top Left:  Rathish Cutz Brand Logo */}
       <div className="fixed top-5 sm:top-6 left-5 sm:left-8 md:left-12 z-40 pointer-events-auto">
         <button
           id="nav-logo-btn"
           disabled={isAnimating}
           onClick={() => !isAnimating && currentPage !== 'home' && onNavigate('home')}
-          aria-label="edits.of.rk home"
+          aria-label=" Rathish Cutz home"
           className="group flex items-center gap-2 cursor-pointer text-left focus:outline-none"
         >
           <span className={`font-display font-black text-base sm:text-lg tracking-tight lowercase leading-none transition-colors ${
             currentPage === 'home' ? 'text-white group-hover:text-[#e5484d]' : 'text-black group-hover:text-[#e5484d]'
           }`}>
-            edits.of.rk
+            Rathish Cutz
           </span>
         </button>
       </div>

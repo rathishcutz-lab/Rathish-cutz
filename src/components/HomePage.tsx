@@ -143,7 +143,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               <img
                 id="home-avatar-image"
                 src={bgSrc}
-                alt="RATHISH KUMAR"
+                alt="R RATHISH KUMAR"
                 className="w-full h-full object-cover object-center rounded-full scale-[1.08] select-none"
               />
             </div>
@@ -155,7 +155,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           id="home-hero-name"
           className="font-display text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-white uppercase leading-none drop-shadow-lg whitespace-nowrap"
         >
-          RATHISH KUMAR
+          R RATHISH KUMAR
         </h1>
 
         {/* Role Subtitle */}
@@ -261,7 +261,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           href={BRAND_INFO.instagram}
           target="_blank"
           rel="noopener noreferrer"
-          title={`Instagram: ${BRAND_INFO.instagramHandle || '@edits.of.rk'}`}
+          title={`Instagram: ${BRAND_INFO.instagramHandle || '@rathish_cutz'}`}
           aria-label="Instagram"
           className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-pink-500/20 backdrop-blur-md border border-white/15 hover:border-pink-500/50 text-white hover:text-pink-400 flex items-center justify-center transition-all duration-300 shadow-xl hover:scale-110 active:scale-95 group cursor-pointer"
         >
