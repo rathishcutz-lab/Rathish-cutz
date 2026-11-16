@@ -12,7 +12,7 @@ export const buildCloudinaryVideoUrl = (publicId: string): string => {
 };
 
 export const BRAND_INFO: BrandInfo = {
-  brandName: 'edits.of.rk',
+  brandName: 'rathish_cutz',
   creatorName: 'RATHISH KUMAR',
   title: 'Video Editor & Visual Storyteller',
   subtitle: 'Clean Cuts • Punchy Sound • Engaging Pacing',
@@ -25,10 +25,10 @@ export const BRAND_INFO: BrandInfo = {
   ],
   whatsappNumber: '9677265861',
   email: 'rathishcutz@gmail.com',
-  instagram: 'https://instagram.com/edits.of.rk',
-  instagramHandle: '@edits.of.rk',
-  youtube: 'https://youtube.com/@edits.of.rk',
-  vimeo: 'https://vimeo.com/edits.of.rk',
+  instagram: 'https://instagram.com/rathish_cutz',
+  instagramHandle: '@rathish_cutz',
+  youtube: 'https://youtube.com/@rathish_cutz',
+  vimeo: 'https://vimeo.com/rathish_cutz',
   tools: [
     { name: 'DaVinci Resolve Studio', level: 'Mastery / Advanced Color', icon: 'Film' },
     { name: 'Adobe Premiere Pro', level: 'Primary NLE / Multi-cam', icon: 'Scissors' },
