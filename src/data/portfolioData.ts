@@ -44,24 +44,7 @@ export const BRAND_INFO: BrandInfo = {
 };
 
 export const PROJECTS: ProjectItem[] = [
-  {
-    id: 'dragon-opening-day',
-    title: 'DRAGON / OPENING DAY',
-    category: 'Celebrity Reel',
-    client: 'Dragon Movie Campaign',
-    year: '2025',
-    duration: '00:45',
-    aspectRatio: '9:16',
-    role: 'Lead Editor & Color',
-    synopsis: 'High-octane opening day celebratory reel featuring punchy cuts, rhythmic beat-matching, and crowd energy.',
-    tags: ['Celebrity Reel', 'Opening Day', 'Fast Cuts', 'Sound Sync'],
-    assetVideoPath: '/assets/works-video-1.mp4',
-    cloudinaryPublicId: 'DRAGON_OPENING_DAY_FINAL',
-    cloudinaryUrl: 'https://res.cloudinary.com/dpdpjs3iu/video/upload/v1789364138/DRAGON_OPENING_DAY_FINAL.mp4',
-    fallbackVideoUrl: 'https://res.cloudinary.com/dpdpjs3iu/video/upload/v1789364138/DRAGON_OPENING_DAY_FINAL.mp4',
-    fallbackImageUrl: 'https://res.cloudinary.com/dpdpjs3iu/video/upload/so_1,q_auto,f_auto/DRAGON_OPENING_DAY_FINAL.jpg',
-    metrics: 'Viral Campaign Launch'
-  },
+ 
   {
     id: 'celebrity-reel-mani',
     title: 'CELEBRITY REEL / MANI',
@@ -79,24 +62,6 @@ export const PROJECTS: ProjectItem[] = [
     fallbackVideoUrl: 'https://res.cloudinary.com/dpdpjs3iu/video/upload/v1789364135/CELEBRITY_REEL_MANI.mp4',
     fallbackImageUrl: 'https://res.cloudinary.com/dpdpjs3iu/video/upload/so_1,q_auto,f_auto/CELEBRITY_REEL_MANI.jpg',
     metrics: 'Social Release'
-  },
-  {
-    id: 'marshal-poojai',
-    title: 'MARSHAL / POOJAI CEREMONY',
-    category: 'Cinema Launch',
-    client: 'Marshal Production Team',
-    year: '2025',
-    duration: '01:10',
-    aspectRatio: '9:16',
-    role: 'Editor & Audio Mastering',
-    synopsis: 'Traditional auspicious launch ceremony cut into an engaging cinematic highlight reel.',
-    tags: ['Cinema Launch', 'Poojai', 'Atmospheric', 'Highlight Cut'],
-    assetVideoPath: '/assets/works-video-3.mp4',
-    cloudinaryPublicId: 'MARSHAL_POOJAI',
-    cloudinaryUrl: 'https://res.cloudinary.com/dpdpjs3iu/video/upload/v1789364132/MARSHAL_POOJAI.mp4',
-    fallbackVideoUrl: 'https://res.cloudinary.com/dpdpjs3iu/video/upload/v1789364132/MARSHAL_POOJAI.mp4',
-    fallbackImageUrl: 'https://res.cloudinary.com/dpdpjs3iu/video/upload/so_1,q_auto,f_auto/MARSHAL_POOJAI.jpg',
-    metrics: 'Official Ceremony Video'
   },
   {
     id: 'karthi-marshal-pooja',
